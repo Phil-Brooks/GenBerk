@@ -12,7 +12,7 @@ let main argv =
     *)
     Rep.setcache()
     Best.depth <- 10
-    let mnum = 10
+    let mnum = 5
     let gmi = RegParse.ReadGame "base.pgn"
     let gm0 = Game.SetaMoves gmi
     let isw = gm0.BlackPlayer = ""||gm0.BlackPlayer = "?" 
@@ -21,14 +21,19 @@ let main argv =
             Rep.AddWhite1st gm0
         else Rep.AddBlack1st gm0
     let num = mnum - (gm1.MoveText.Length/2)
-    //let rec addresps ct igm =
-    //    if ct = num then igm
-    //    else
-    //        let ogm = Rep.AddWhiteResps igm
-    //        addresps (ct+1) ogm
-    //let gmr = addresps 0 gm1
-    //let gm = Rep.AddWhiteLast gmr
-    Rep.Save "berk.pgn" gm1
+    let rec addresps ct igm =
+        if ct = num then igm
+        else
+            let ogm = 
+                if isw then
+                    Rep.AddWhiteResps igm
+                else Rep.AddBlackResps igm
+            addresps (ct+1) ogm
+    let gmr = addresps 0 gm1
+    let gm = 
+       if isw then Rep.AddWhiteLast gmr
+       else Rep.AddBlackLast gmr
+    Rep.Save "berk.pgn" gm
 
 
 

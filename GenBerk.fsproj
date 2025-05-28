@@ -34,9 +34,11 @@
     <Compile Include="pMove.fs" />
     <Compile Include="MoveTextEntry.fs" />
     <Compile Include="Game.fs" />
+    <Compile Include="MoveUtil.fs" />
     <Compile Include="RegParse.fs" />
     <Compile Include="PgnWriter.fs" />
     <Compile Include="OpenExp.fs" />
+    <Compile Include="Berserk.fs" />
     <Compile Include="RespCache.fs" />
     <Compile Include="BestCache.fs" />
     <Compile Include="Resp.fs" />

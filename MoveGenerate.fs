@@ -323,18 +323,18 @@ module MoveGenerate =
 
             (ptwos@pones@pcaps)|>legal(bd)
 
-    /////Gets all legal moves for this Board(bd)
-    //let AllMoves(bd : Brd) :Move list = 
-    //    let checkerCount = bd.Checkers |> Bitboard.BitCount
-    //    if checkerCount > 1 then bd|>KingMoves
-    //    else
-    //        (bd|>CastleMoves) @
-    //        (bd|>PawnMoves) @
-    //        (bd|>KnightMoves) @
-    //        (bd|>BishopMoves) @
-    //        (bd|>RookMoves) @
-    //        (bd|>QueenMoves) @
-    //        (bd|>KingMoves)
+    ///Gets all legal moves for this Board(bd)
+    let AllMoves(bd : Brd) :Move list = 
+        let checkerCount = bd.Checkers |> Bitboard.BitCount
+        if checkerCount > 1 then bd|>KingMoves
+        else
+            (bd|>CastleMoves) @
+            (bd|>PawnMoves) @
+            (bd|>KnightMoves) @
+            (bd|>BishopMoves) @
+            (bd|>RookMoves) @
+            (bd|>QueenMoves) @
+            (bd|>KingMoves)
 
     //let PossMoves (bd: Brd) (sq: Square) =
     //    let pc = bd.[sq]
@@ -355,8 +355,8 @@ module MoveGenerate =
     //    if not (bd |> Board.IsChk) then AllMoves(bd) |> List.isEmpty
     //    else false
     
-    //let IsMate(bd : Brd) = 
-    //    if bd |> Board.IsChk then AllMoves(bd) |> List.isEmpty
-    //    else false
+    let IsMate(bd : Brd) = 
+        if bd |> Board.IsChk then AllMoves(bd) |> List.isEmpty
+        else false
 
 

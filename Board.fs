@@ -235,6 +235,9 @@ module Board =
                              |> AttacksToBoth(if fen.Whosturn=Player.White then bd.WtKingPos else bd.BkKingPos)
                              &&& (if fen.Whosturn=Player.Black then bd.WtPrBds else bd.BkPrBds) }
 
+    ///Create a new Board given a FEN string(str)
+    let FromStr (str: string) = str|>FEN.Parse|>FromFEN 
+
     ///Gets a FEN string for this Board(bd) 
     let ToStr (bd : Brd) = bd|>FEN.FromBd|>FEN.ToStr
 
