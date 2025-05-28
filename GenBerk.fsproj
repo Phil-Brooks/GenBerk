@@ -6,6 +6,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Types.fs" />
+    <Compile Include="Util.fs" />
+    <Compile Include="Direction.fs" />
+    <Compile Include="Player.fs" />
+    <Compile Include="PieceType.fs" />
+    <Compile Include="Piece.fs" />
+    <Compile Include="Rank.fs" />
+    <Compile Include="File.fs" />
+    <Compile Include="Square.fs" />
+    <Compile Include="DateUtil.fs" />
+    <Compile Include="Bitboard.fs" />
+    <Compile Include="Attacks.fs" />
+    <Compile Include="FEN.fs" />
+    <Compile Include="Board.fs" />
+    <Compile Include="pMove.fs" />
+    <Compile Include="MoveTextEntry.fs" />
+    <Compile Include="Game.fs" />
+    <Compile Include="RegParse.fs" />
+    <Compile Include="RespCache.fs" />
+    <Compile Include="BestCache.fs" />
+    <Compile Include="Resp.fs" />
+    <Compile Include="Best.fs" />
+    <Compile Include="Rep.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
