@@ -2,24 +2,24 @@
 
 module Square = 
     
-    //let Parse(s : string) = 
-    //    if s.Length <> 2 then failwith (s + " is not a valid position")
-    //    else 
-    //        let file = File.Parse(s.[0])
-    //        let rank = Rank.Parse(s.[1])
-    //        Sq(file,rank)
+    let Parse(s : string) = 
+        if s.Length <> 2 then failwith (s + " is not a valid position")
+        else 
+            let file = File.Parse(s.[0])
+            let rank = Rank.Parse(s.[1])
+            Sq(file,rank)
     
     let IsInBounds(pos : Square) = int (pos) >= 0 && int (pos) <= 63
     let ToRank(pos : Square) :Rank = pos / 8s
     let ToFile(pos : Square) :File = pos % 8s
     
-    //let Name(pos : Square) = 
-    //    (pos
-    //     |> ToFile
-    //     |> File.FileToString)
-    //    + (pos
-    //       |> ToRank
-    //       |> Rank.RankToString)
+    let Name(pos : Square) = 
+        (pos
+         |> ToFile
+         |> File.FileToString)
+        + (pos
+           |> ToRank
+           |> Rank.RankToString)
     
     //let DistanceTo (pto : Square) (pfrom : Square) = 
     //    let rankfrom = int (pfrom |> ToRank)
@@ -40,39 +40,39 @@ module Square =
     //    let fDiff = abs (filefrom - fileto)
     //    rDiff + fDiff
     
-    //let DirectionTo (pto : Square) (pfrom : Square) = 
-    //    let rankfrom = int (pfrom |> ToRank)
-    //    let filefrom = int (pfrom |> ToFile)
-    //    let rankto = int (pto |> ToRank)
-    //    let fileto = int (pto |> ToFile)
-    //    if fileto = filefrom then 
-    //        if rankfrom < rankto then Dirn.DirS
-    //        else Dirn.DirN
-    //    elif rankfrom = rankto then 
-    //        if filefrom > fileto then Dirn.DirW
-    //        else Dirn.DirE
-    //    else 
-    //        let rankchange = rankto - rankfrom
-    //        let filechange = fileto - filefrom
+    let DirectionTo (pto : Square) (pfrom : Square) = 
+        let rankfrom = int (pfrom |> ToRank)
+        let filefrom = int (pfrom |> ToFile)
+        let rankto = int (pto |> ToRank)
+        let fileto = int (pto |> ToFile)
+        if fileto = filefrom then 
+            if rankfrom < rankto then Dirn.DirS
+            else Dirn.DirN
+        elif rankfrom = rankto then 
+            if filefrom > fileto then Dirn.DirW
+            else Dirn.DirE
+        else 
+            let rankchange = rankto - rankfrom
+            let filechange = fileto - filefrom
             
-    //        let rankchangeabs = 
-    //            if rankchange > 0 then rankchange
-    //            else -rankchange
+            let rankchangeabs = 
+                if rankchange > 0 then rankchange
+                else -rankchange
             
-    //        let filechangeabs = 
-    //            if filechange > 0 then filechange
-    //            else -filechange
+            let filechangeabs = 
+                if filechange > 0 then filechange
+                else -filechange
             
-    //        if (rankchangeabs = 1 && filechangeabs = 2) || (rankchangeabs = 2 && filechangeabs = 1) then 
-    //            ((rankchange * 8) + filechange) |> enum<Dirn>
-    //        elif rankchangeabs <> filechangeabs then 0 |> enum<Dirn>
-    //        elif rankchange < 0 then 
-    //            if filechange > 0 then Dirn.DirNE
-    //            else Dirn.DirNW
-    //        else if filechange > 0 then Dirn.DirSE
-    //        else Dirn.DirSW
+            if (rankchangeabs = 1 && filechangeabs = 2) || (rankchangeabs = 2 && filechangeabs = 1) then 
+                ((rankchange * 8) + filechange) |> enum<Dirn>
+            elif rankchangeabs <> filechangeabs then 0 |> enum<Dirn>
+            elif rankchange < 0 then 
+                if filechange > 0 then Dirn.DirNE
+                else Dirn.DirNW
+            else if filechange > 0 then Dirn.DirSE
+            else Dirn.DirSW
     
-    //let PositionInDirectionUnsafe (dir : Dirn) (pos : Square) :Square= pos + int16(dir)
+    let PositionInDirectionUnsafe (dir : Dirn) (pos : Square) :Square= pos + int16(dir)
     
     let PositionInDirection (dir : Dirn) (pos : Square) = 
         if not (pos |> IsInBounds) then OUTOFBOUNDS
@@ -128,18 +128,18 @@ module Square =
     //    |> List.map (ToBitboard)
     //    |> List.reduce (|||)
     
-    //let Between (pto : Square) (pfrom : Square) = 
-    //    let dir = pfrom |> DirectionTo(pto)
+    let Between (pto : Square) (pfrom : Square) = 
+        let dir = pfrom |> DirectionTo(pto)
         
-    //    let rec getb f rv = 
-    //        if f = pto then rv
-    //        else 
-    //            let nf = f |> PositionInDirectionUnsafe(dir)
-    //            let nrv = rv ||| (nf |> ToBitboard)
-    //            getb nf nrv
+        let rec getb f rv = 
+            if f = pto then rv
+            else 
+                let nf = f |> PositionInDirectionUnsafe(dir)
+                let nrv = rv ||| (nf |> ToBitboard)
+                getb nf nrv
         
-    //    let rv = 
-    //        if int (dir) = 0 then Bitboard.Empty
-    //        else getb pfrom Bitboard.Empty
+        let rv = 
+            if int (dir) = 0 then Bitboard.Empty
+            else getb pfrom Bitboard.Empty
         
-    //    rv &&& ~~~(pto |> ToBitboard)
+        rv &&& ~~~(pto |> ToBitboard)

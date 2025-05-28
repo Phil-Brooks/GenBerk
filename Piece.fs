@@ -18,6 +18,23 @@ module Piece =
         | 'k' -> Piece.BKing
         | _ -> failwith (c.ToString() + " is not a valid piece")
 
+    let PieceToString(piece : Piece) = 
+        match piece with
+        | Piece.WPawn -> "P"
+        | Piece.WKnight -> "N"
+        | Piece.WBishop -> "B"
+        | Piece.WRook -> "R"
+        | Piece.WQueen -> "Q"
+        | Piece.WKing -> "K"
+        | Piece.BPawn -> "p"
+        | Piece.BKnight -> "n"
+        | Piece.BBishop -> "b"
+        | Piece.BRook -> "r"
+        | Piece.BQueen -> "q"
+        | Piece.BKing -> "k"
+        | Piece.EMPTY -> " "
+        | _ -> failwith ("not a valid piece")
+    
     let ToPieceType(piece : Piece) = (int (piece) &&& 7) |> PcTp
 
     let PieceToPlayer(piece : Piece) = (int (piece) >>> 3) |> Plyr

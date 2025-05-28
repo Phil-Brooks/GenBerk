@@ -126,21 +126,21 @@ module Bitboard =
                 getp nbb (first :: ol)
         getp ibb []
     
-    //let GetFirstPos ibb :Square =
-    //    let num = uint64 (ibb) &&& 0xFFFFFFFFUL
-    //    if num <> 0UL then 
-    //        let number = int (num)
-    //        DebrujinPositions.[int ((uint32 (number &&& -number) * 0x077CB531u) >>> 27)] 
-    //    else 
-    //        let number = int (uint64 (ibb) >>> 32)
-    //        (DebrujinPositions.[int ((uint32 (number &&& -number) * 0x077CB531u) >>> 27)] + 32s) 
+    let GetFirstPos ibb :Square =
+        let num = uint64 (ibb) &&& 0xFFFFFFFFUL
+        if num <> 0UL then 
+            let number = int (num)
+            DebrujinPositions.[int ((uint32 (number &&& -number) * 0x077CB531u) >>> 27)] 
+        else 
+            let number = int (uint64 (ibb) >>> 32)
+            (DebrujinPositions.[int ((uint32 (number &&& -number) * 0x077CB531u) >>> 27)] + 32s) 
 
-    //let GetRemainPos first ibb = ibb &&& ~~~(first |> Square.ToBitboard)
+    let GetRemainPos first ibb = ibb &&& ~~~(first |> Square.ToBitboard)
     
-    //let PopFirst ibb = 
-    //    let first = GetFirstPos ibb
-    //    let bb = GetRemainPos first ibb
-    //    first, bb
+    let PopFirst ibb = 
+        let first = GetFirstPos ibb
+        let bb = GetRemainPos first ibb
+        first, bb
 
     
 

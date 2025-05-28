@@ -72,6 +72,7 @@ module Types =
         A2; B2; C2; D2; E2; F2; G2; H2;
         A1; B1; C1; D1; E1; F1; G1; H1
         ] 
+    let SQUARE_NAMES = [for r in RANK_NAMES do for f in FILE_NAMES -> f+r]
     let Sq(f:File,r:Rank) :Square = r * 8s + f
 
     [<System.Flags>]

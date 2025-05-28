@@ -1,0 +1,19 @@
+[Event ""]
+[Site ""]
+[Date "????.??.??"]
+[Round ""]
+[White ""]
+[Black "QGD Others"]
+[Result "*"]
+[ECO "D30v"]
+[FlipB "1"]
+
+1.d4 e6 2.c4 Nf6 3.Nf3 d5 4.Bg5 ( 4.e3 Be7 5.Nc3 O-O 6.Bd3 dxc4 7.Bxc4 a6 
+8.O-O b5 9.Bd3 Bb7 10.a3 c5 11.dxc5 Bxc5 ) 4...dxc4 5.Qa4+ ( 5.e4 c5 6.Nc3
+cxd4 7.Qxd4 Qxd4 8.Nxd4 h6 9.Bh4 Bd7 10.Bxc4 Nc6 11.Nxc6 Bxc6 12.f3 ) ( 5.
+Nc3 a6 6.a4 ( 6.e4 b5 7.e5 h6 8.Bh4 g5 9.Nxg5 hxg5 10.Bxg5 Nbd7 11.exf6 
+Bb7 12.d5 Nc5 13.dxe6 Nxe6 14.Qxd8+ Rxd8 15.Be3 Rh4 ) 6...Nc6 7.e3 ( 7.e4 
+Na5 8.e5 h6 9.Bh4 g5 10.Nxg5 Nd5 11.Nf3 Be7 ) 7...Na5 8.Nd2 c5 9.dxc5 Bxc5
+10.Bxc4 Bd7 11.Be2 Bc6 ) ( 5.e3 b5 6.a4 Bb4+ 7.Nc3 c6 8.Be2 Nbd7 9.O-O Qb6
+) 5...Nbd7 6.e3 Be7 7.Bxc4 O-O 8.Qc2 h6 9.Bh4 c5 10.O-O *
+

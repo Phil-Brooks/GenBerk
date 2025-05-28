@@ -309,7 +309,7 @@ module Attacks =
         LookupR.[int (pos)].[ind3]
 
     //let RookMask(pos : Square) = MaskR.[int (pos)]
-    //let QueenAttacks (pos : Square) (allPieces : Bitboard) = 
-    //    (RookAttacks pos allPieces) ||| (BishopAttacks pos allPieces)
+    let QueenAttacks (pos : Square) (allPieces : Bitboard) = 
+        (RookAttacks pos allPieces) ||| (BishopAttacks pos allPieces)
 
 

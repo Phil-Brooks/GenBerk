@@ -3,9 +3,16 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="base.pgn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="berserk.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Types.fs" />
     <Compile Include="Util.fs" />
     <Compile Include="Direction.fs" />
@@ -15,21 +22,31 @@
     <Compile Include="Rank.fs" />
     <Compile Include="File.fs" />
     <Compile Include="Square.fs" />
+    <Compile Include="GameResult.fs" />
     <Compile Include="DateUtil.fs" />
     <Compile Include="Bitboard.fs" />
     <Compile Include="Attacks.fs" />
     <Compile Include="FEN.fs" />
+    <Compile Include="Move.fs" />
     <Compile Include="Board.fs" />
+    <Compile Include="MoveGenerate.fs" />
+    <Compile Include="PgnWrite.fs" />
     <Compile Include="pMove.fs" />
     <Compile Include="MoveTextEntry.fs" />
     <Compile Include="Game.fs" />
     <Compile Include="RegParse.fs" />
+    <Compile Include="PgnWriter.fs" />
+    <Compile Include="OpenExp.fs" />
     <Compile Include="RespCache.fs" />
     <Compile Include="BestCache.fs" />
     <Compile Include="Resp.fs" />
     <Compile Include="Best.fs" />
     <Compile Include="Rep.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="6.6.0" />
   </ItemGroup>
 
 </Project>

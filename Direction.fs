@@ -50,7 +50,7 @@ module Direction =
     //        true
     //    | _ -> false
 
-    //let Opposite(dir : Dirn) :Dirn = -int (dir)|>enum<Dirn>
+    let Opposite(dir : Dirn) :Dirn = -int (dir)|>enum<Dirn>
 
     let MyNorth(player : Player) = 
         if player = Player.White then Dirn.DirN
