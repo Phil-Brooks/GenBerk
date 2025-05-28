@@ -5,19 +5,16 @@ open System.Collections.Generic
 [<AutoOpen>]
 module Types =
     type Move = uint32
-
     type File = int16
     let FileA, FileB, FileC, FileD, FileE, FileF, FileG, FileH :File * File * File * File * File * File * File * File = 0s,1s,2s,3s,4s,5s,6s,7s
     let FILES = [FileA; FileB; FileC; FileD; FileE; FileF; FileG; FileH]
     let FILE_NAMES = ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"]
     let FILE_EMPTY :File = 8s
-    
     type Rank = int16
     let Rank8, Rank7, Rank6, Rank5, Rank4, Rank3, Rank2, Rank1 :Rank * Rank * Rank * Rank * Rank * Rank * Rank * Rank = 0s,1s,2s,3s,4s,5s,6s,7s
     let RANKS = [Rank8; Rank7; Rank6; Rank5; Rank4; Rank3; Rank2; Rank1]
     let RANK_NAMES = ["8"; "7"; "6"; "5"; "4"; "3"; "2"; "1"]
     let RANK_EMPTY :Rank = 8s
-
     type PieceType = 
         | EMPTY = 0
         | Pawn = 1
@@ -26,7 +23,6 @@ module Types =
         | Rook = 4
         | Queen = 5
         | King = 6
-
     type Piece = 
         | WPawn = 1
         | WKnight = 2
@@ -41,17 +37,14 @@ module Types =
         | BQueen = 13
         | BKing = 14
         | EMPTY = 0
-    
     type Player = 
         | White = 0
         | Black = 1
-    
     type GameResult = 
         | Draw = 0
         | WhiteWins = 1
         | BlackWins = -1
         | Open = 9
-
     type Square = int16
     let A1, B1, C1, D1, E1, F1, G1, H1 :Square * Square * Square * Square * Square * Square * Square * Square =  56s,57s,58s,59s,60s,61s,62s,63s
     let A2, B2, C2, D2, E2, F2, G2, H2 = A1-8s, B1-8s, C1-8s, D1-8s, E1-8s, F1-8s, G1-8s, H1-8s 
@@ -74,7 +67,6 @@ module Types =
         ] 
     let SQUARE_NAMES = [for r in RANK_NAMES do for f in FILE_NAMES -> f+r]
     let Sq(f:File,r:Rank) :Square = r * 8s + f
-
     [<System.Flags>]
     type CstlFlgs = 
         | EMPTY = 0
@@ -83,7 +75,6 @@ module Types =
         | BlackShort = 4
         | BlackLong = 8
         | All = 15
-    
     [<System.Flags>]
     type Bitboard = 
         | A8 = 1UL
@@ -168,13 +159,11 @@ module Types =
         | FileH = 9259542123273814144UL
         | Empty = 0UL
         | Full = 18446744073709551615UL
-
     type MoveType =
         | Simple
         | Capture
         | CastleKingSide
         | CastleQueenSide
-
     type NAG =
         |Null = 0
         |Good = 1
@@ -190,7 +179,6 @@ module Types =
         |Bmoderate =17
         |Wdecisive = 18
         |Bdecisive = 19
-
     type pMove = 
         {
          Mtype:MoveType 
@@ -203,7 +191,6 @@ module Types =
          IsDoubleCheck:bool
          IsCheckMate:bool
          }
-
     type Brd = 
         { PieceAt : Piece list
           WtKingPos : Square
@@ -235,7 +222,6 @@ module Types =
           Fiftymove = 0
           Fullmove = 0
           }
-
     type aMove =
         {
             PreBrd : Brd
@@ -244,14 +230,12 @@ module Types =
             Mv : Move
             PostBrd : Brd
         }
-
     type MoveTextEntry =
         |HalfMoveEntry of int option * bool * pMove * aMove option
         |CommentEntry of string
         |GameEndEntry of GameResult
         |NAGEntry of NAG
         |RAVEntry of MoveTextEntry list
-
     type Game =
         {
             Event : string
@@ -286,9 +270,6 @@ module Types =
             AdditionalInfo = Map.empty
             MoveText = []
         }
-
     type RespCacheDict = Dictionary<string,string list>
     type BestEntry = {Best:string;Resp:string;Eval:int}
     type BestCacheDict = Dictionary<string,BestEntry>
-
-

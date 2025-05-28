@@ -128,7 +128,6 @@ module RegParse =
                         | ' ' -> Unknown, s.[1..]
                         | _ -> InMove, s
                     proclin st cstr ns gm
-    
         let rec getgm st cstr gm = 
             let lin = sr.ReadLine()
             if lin |> isNull then { gm with MoveText = (gm.MoveText |> List.rev) }
@@ -137,14 +136,11 @@ module RegParse =
                 if nst = FinishedOK then { ngm with MoveText = (ngm.MoveText |> List.rev) }
                 elif nst = FinishedInvalid then GameEMP
                 else getgm nst ncstr ngm
-    
         let gm = getgm Unknown "" GameEMP
         gm
-    
     let ReadGame(file : string) = 
         let stream = new FileStream(file, FileMode.Open)
         let sr = new StreamReader(stream)
         let result = NextGameRdr(sr)
         stream.Close()
         result
-

@@ -1,7 +1,6 @@
 ﻿namespace GenBerk
 
 module Piece = 
-    
     let Parse(c : char) = 
         match c with
         | 'P' -> Piece.WPawn
@@ -17,7 +16,6 @@ module Piece =
         | 'q' -> Piece.BQueen
         | 'k' -> Piece.BKing
         | _ -> failwith (c.ToString() + " is not a valid piece")
-
     let PieceToString(piece : Piece) = 
         match piece with
         | Piece.WPawn -> "P"
@@ -34,8 +32,5 @@ module Piece =
         | Piece.BKing -> "k"
         | Piece.EMPTY -> " "
         | _ -> failwith ("not a valid piece")
-    
     let ToPieceType(piece : Piece) = (int (piece) &&& 7) |> PcTp
-
     let PieceToPlayer(piece : Piece) = (int (piece) >>> 3) |> Plyr
-

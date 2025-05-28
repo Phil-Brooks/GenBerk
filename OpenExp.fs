@@ -7,11 +7,8 @@ open FSharp.Data
 module OpenExp =
     [<Literal>]
     let sample = "https://explorer.lichess.ovh/masters"
-    
     let addr = "https://explorer.lichess.ovh/masters?fen="
-    
     type Results = JsonProvider<sample>
-
     ///get moves for board
     let GetMoves(bd:Brd) = 
         let fen = bd|>Board.ToStr

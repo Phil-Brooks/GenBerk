@@ -4,10 +4,8 @@ module Rep =
     let setcache() = 
         Best.Setup("BestCache")
         Resp.Setup("RespCache")
-
     let Save (nm:string) (gm:Game) =
         PgnWriter.WriteGame nm gm
-    
     let AddWhite1st (gm:Game) =
         //Just go to end of each var and add a set of Ravs using resp cache
         let rec add1st hmn (camv:aMove option) (imtel:MoveTextEntry list) (omtel:MoveTextEntry list) =
@@ -39,7 +37,6 @@ module Rep =
                 |_ -> add1st hmn camv imtel.Tail (imtel.Head::omtel)
         let nmt = add1st 2 None gm.MoveText []
         {gm with MoveText=nmt}
-
     let AddBlack1st (gm:Game) =
         //Just go to end of each var and add a set of Ravs using resp cache
         let rec add1st hmn (camv:aMove option) (imtel:MoveTextEntry list) (omtel:MoveTextEntry list) =
@@ -71,7 +68,6 @@ module Rep =
                 |_ -> add1st hmn camv imtel.Tail (imtel.Head::omtel)
         let nmt = add1st 2 None gm.MoveText []
         {gm with MoveText=nmt}
-
     let AddWhiteResps (gm:Game) =
         //Just go to end of each var and add best move using best cache 
         //and then list of moves using resp cache with diags
@@ -140,7 +136,6 @@ module Rep =
                 |_ -> addresps hmn camv imtel.Tail (imtel.Head::omtel)
         let nmt = addresps 2 None gm.MoveText []
         {gm with MoveText=nmt}
-
     let AddBlackResps (gm:Game) =
         //Just go to end of each var and add best move using best cache 
         //and then list of moves using resp cache with diags
@@ -215,7 +210,6 @@ module Rep =
                 |_ -> addresps hmn camv imtel.Tail (imtel.Head::omtel)
         let nmt = addresps 2 None gm.MoveText []
         {gm with MoveText=nmt}
-
     let GetNag (eval:int) =
         if eval > -50 && eval < 50 then NAGEntry(NAG.Even)
         elif eval > 0 then
@@ -226,7 +220,6 @@ module Rep =
             if eval > -150 then NAGEntry(NAG.Bslight) 
             elif eval > -250 then NAGEntry(NAG.Bmoderate) 
             else NAGEntry(NAG.Bdecisive)
-
     let AddWhiteLast (gm:Game) =
         //Just go to end of each var and add best move using best cache 
         //and then nag based on eval and a diagram
@@ -263,7 +256,6 @@ module Rep =
                 |_ -> addlast hmn camv imtel.Tail (imtel.Head::omtel)
         let nmt = addlast 2 None gm.MoveText []
         {gm with MoveText=nmt}
-
     let AddBlackLast (gm:Game) =
         //Just go to end of each var and add best move using best cache 
         //and then nag based on eval and a diagram

@@ -5,11 +5,9 @@ open System.Collections.Generic
 module Best =
     let mutable depth = 5
     let mutable bdict = new Dictionary<string, BestEntry>()
-
     let Setup(fil) = 
         BestCache.cache <- fil
         bdict <- BestCache.Load()
-
     let Get (fen:string) =
         if bdict.ContainsKey fen then bdict[fen]
         else
@@ -17,4 +15,3 @@ module Best =
             bdict.Add(fen,ans)
             BestCache.Save(bdict)
             ans
-

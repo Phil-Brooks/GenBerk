@@ -5,7 +5,6 @@ open System.Collections.Generic
 
 module RespCache =
     let mutable cache = ""
-    
     let Save (rd:RespCacheDict) =
         let l2str (l:string list) =
             if l.IsEmpty then ""
@@ -18,7 +17,6 @@ module RespCache =
             |> Seq.map(fun (KeyValue(k,v)) -> "\"" + k + "\",[" + (l2str v) + "]")
         if cache = "" then failwith "Cache file not defined"
         else File.WriteAllLines(cache,lines)
-
     let Load () =
         let ln2tuple (l:string) =
             let bits = l.Split(",")
@@ -32,7 +30,6 @@ module RespCache =
                     let ms = v0.Split(";")
                     let v = ms|>Array.map(fun m -> m.Trim('\"'))|>Array.toList
                     k,v
-
         if cache = "" then failwith "Cache file not defined"
         else 
             if File.Exists(cache) then

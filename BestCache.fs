@@ -5,7 +5,6 @@ open System.Collections.Generic
 
 module BestCache =
     let mutable cache = ""
-    
     let Save (bd:BestCacheDict) =
         let b2str (b:BestEntry) =
             "{Best:" + b.Best + ";Resp:" + b.Resp + ";Eval:" + b.Eval.ToString() + "}"
@@ -14,7 +13,6 @@ module BestCache =
             |> Seq.map(fun (KeyValue(k,v)) -> "\"" + k + "\"," + (b2str v))
         if cache = "" then failwith "Cache file not defined"
         else File.WriteAllLines(cache,lines)
-
     let Load () =
         let ln2tuple (l:string) =
             let bits = l.Split(",")
@@ -29,7 +27,6 @@ module BestCache =
                 let eval = int(ms[2].Split(":")[1])
                 let v = {Best=best;Resp=resp;Eval=eval}
                 k,v
-
         if cache = "" then failwith "Cache file not defined"
         else 
             if File.Exists(cache) then

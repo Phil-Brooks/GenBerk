@@ -5,11 +5,9 @@ open System.Collections.Generic
 
 module Resp =
     let mutable rdict = new Dictionary<string, string list>()
-
     let Setup(fil) = 
         RespCache.cache <- fil
         rdict <- RespCache.Load()
-
     let LiGet (fen:string) =
         let rec tryget ct =
             try
@@ -31,7 +29,6 @@ module Resp =
                         tryget (ct+1)
                     else failwith"too many tries"
         tryget 1
-    
     let Get (fen:string) =
         if rdict.ContainsKey fen then rdict[fen]
         else
@@ -39,5 +36,3 @@ module Resp =
             rdict.Add(fen,ans)
             RespCache.Save(rdict)
             ans
-    
-

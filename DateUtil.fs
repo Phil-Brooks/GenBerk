@@ -3,12 +3,10 @@ namespace GenBerk
 module DateUtil = 
     let (|?) (lhs:int option) rhs = (if lhs.IsNone then rhs else lhs.Value.ToString("00"))
     let (-?) (lhs:int option) rhs = (if lhs.IsNone then rhs else lhs.Value.ToString("0000"))
-
     let ToStr(gm:Game) =
         (gm.Year -? "????") + (".") +
         (gm.Month |? "??") + (".") +
         (gm.Day |? "??")
-    
     let FromStr(dtstr:string) =
         let a = dtstr.Split([|'.'|])|>Array.map(fun s -> s.Trim())
         let y,m,d = if a.Length=3 then a.[0],a.[1],a.[2] else a.[0],"??","??"

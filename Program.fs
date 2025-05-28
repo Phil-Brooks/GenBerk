@@ -9,6 +9,9 @@ let main argv =
     4. Read game
     5. Check colour
     6. Add 1st additional moves
+    7. Expand specified number of moves
+    8. Add last moves for each variation
+    9. Save new pgn
     *)
     Rep.setcache()
     Best.depth <- 10
@@ -34,7 +37,4 @@ let main argv =
        if isw then Rep.AddWhiteLast gmr
        else Rep.AddBlackLast gmr
     Rep.Save "berk.pgn" gm
-
-
-
     0

@@ -3,7 +3,6 @@
 open System.Text.RegularExpressions
 
 module pMove =
-
     let CreateAll(mt,tgs,pc,orf,orr,pp,ic,id,im) =
         {Mtype=mt 
          TargetSquare=tgs
@@ -14,13 +13,9 @@ module pMove =
          IsCheck=ic
          IsDoubleCheck=id
          IsCheckMate=im}
-
     let CreateOrig(mt,tgs,pc,orf,orr) = CreateAll(mt,tgs,pc,orf,orr,None,false,false,false)
-
     let Create(mt,tgs,pc) = CreateOrig(mt,tgs,pc,None,None)
-
     let CreateCastle(mt) = CreateOrig(mt,OUTOFBOUNDS,None,None,None)
-    
     let Parse(s : string) =
         //Active pattern to parse move string
         let (|SimpleMove|Castle|PawnCapture|AmbiguousFile|AmbiguousRank|Promotion|PromCapture|) (s:string) =
@@ -40,18 +35,14 @@ module pMove =
             elif Regex.IsMatch(s, "^[a-h][a-h][1-8][BNRQ]$") then 
                 PromCapture(s.[0]|>File.Parse, s.[1..2]|>Square.Parse, s.[3]|>PieceType.Parse)
             else failwith ("invalid move: " + s)
-
         //general failure message
         let fl() =
             failwith ("not done yet, mv: " + s)
-
         let strip chars =
             String.collect (fun c -> 
                 if Seq.exists ((=) c) chars then ""
                 else string c)
-          
         let m = s |> strip "+x#="|>fun x ->x.Replace("e.p.", "")
-        
         let mv0 =
             match m with
             | SimpleMove(p, sq) -> 
@@ -68,15 +59,12 @@ module pMove =
                 CreateAll(MoveType.Simple,sq,Some(PieceType.Pawn),None,None,Some(p),false,false,false)
             | PromCapture(f, sq, p) -> 
                 CreateAll(MoveType.Capture,sq,Some(PieceType.Pawn),Some(f),None,Some(p),false,false,false)
-      
         let mv1 =
             if s.Contains("++") then {mv0 with IsDoubleCheck=true} 
             elif s.Contains("+") then {mv0 with IsCheck=true}
             elif s.Contains("#") then {mv0 with IsCheckMate=true}
             else mv0
-        
         mv1
-
     let ToMove (bd:Brd) (pmv:pMove) =
         if pmv.Mtype=MoveType.CastleKingSide then
             let mvs = 
@@ -170,7 +158,6 @@ module pMove =
                 else
                     failwith "k"
             |_ -> failwith "all"
-
     let ToaMove (bd:Brd) mno (pmv:pMove) =
         let mv = pmv|>ToMove bd
 
@@ -181,4 +168,3 @@ module pMove =
             Mv = mv
             PostBrd = bd|>Board.MoveApply mv
         }
-    

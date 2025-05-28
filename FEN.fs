@@ -29,7 +29,6 @@ module FEN =
                         if ect > 0 then sb.Append(ect.ToString()) |> ignore
                         sb.Append(piece |> Piece.PieceToString) |> ignore
                         getect 0 (ifile + 1)
-            
             let ect = getect 0 0
             if ect > 0 then sb.Append(ect.ToString()) |> ignore
             if irank < 7 then sb.Append("/") |> ignore
@@ -46,7 +45,6 @@ module FEN =
         sb.Append(" " + fen.Fiftymove.ToString()) |> ignore
         sb.Append(" " + fen.Fullmove.ToString()) |> ignore
         sb.ToString()
-
     let FromBd(bd : Brd) = 
         { Pieceat = bd.PieceAt
           Whosturn = bd.WhosTurn
@@ -57,7 +55,6 @@ module FEN =
           Enpassant = bd.EnPassant
           Fiftymove = bd.Fiftymove
           Fullmove = bd.Fullmove }
-
     let Parse(sFEN : string) = 
         let pieceat = Array.create 64 Piece.EMPTY
         let sbPattern = new StringBuilder()
@@ -129,6 +126,5 @@ module FEN =
           Enpassant = enpassant
           Fiftymove = fiftyMove
           Fullmove = fullMove }
-    
     let StartStr = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     let Start = Parse StartStr

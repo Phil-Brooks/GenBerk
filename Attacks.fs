@@ -1,7 +1,6 @@
 ﻿namespace GenBerk
 
 module Attacks =
-
     let Combinations(mask : Bitboard) = 
         let posl = mask |> Bitboard.ToSquares
         let possCombs = 1 <<< (posl.Length)
@@ -13,7 +12,6 @@ module Attacks =
                    else p |> Square.ToBitboard)
             |> List.reduce (|||)
         [ 0..possCombs - 1 ] |> List.map getc
-
     let RookMaskCalc(position : Square) = 
         let rec getr (d:Dirn) (p : Square) rv = 
             if p
@@ -25,7 +23,6 @@ module Attacks =
         Direction.AllDirectionsRook
         |> Array.map (fun d -> getr d (position |> Square.PositionInDirection(d)) Bitboard.Empty)
         |> Array.reduce (|||)
-
     let BishopMaskCalc(position : Square) = 
         let rec getr d (p : Square) rv = 
             if p
@@ -37,7 +34,6 @@ module Attacks =
         Direction.AllDirectionsBishop
         |> Array.map (fun d -> getr d (position |> Square.PositionInDirection(d)) Bitboard.Empty)
         |> Array.reduce (|||)
-
     let RookAttacksCalc (position : Square) (blockers : Bitboard) = 
         let rec getr d p rv = 
             if p = OUTOFBOUNDS then rv
@@ -48,7 +44,6 @@ module Attacks =
         Direction.AllDirectionsRook
         |> Array.map (fun d -> getr d (position |> Square.PositionInDirection(d)) Bitboard.Empty)
         |> Array.reduce (|||)
-
     let BishopAttacksCalc (position : Square) (blockers : Bitboard) = 
         let rec getr d p rv = 
             if p = OUTOFBOUNDS then rv
@@ -59,7 +54,6 @@ module Attacks =
         Direction.AllDirectionsBishop
         |> Array.map (fun d -> getr d (position |> Square.PositionInDirection(d)) Bitboard.Empty)
         |> Array.reduce (|||)
-
     let MagicsB = 
         [| 11533720853379293696UL //A8
                                   ; 4634221887939944448UL //B8
@@ -217,7 +211,6 @@ module Attacks =
                                                                            ; 9331608030229332484UL //G1
                                                                                                    ; 45071337550774534UL //H1
                                                                                                                          |]
-
     let AttacksKn = 
         let getkn sq = 
             Direction.AllDirectionsKnight
@@ -227,7 +220,6 @@ module Attacks =
                    |> Square.ToBitboard)
             |> Seq.reduce (|||)
         SQUARES |> List.map getkn
-
     let AttacksK = 
         let getk sq = 
             Direction.AllDirectionsQueen
@@ -237,7 +229,6 @@ module Attacks =
                    |> Square.ToBitboard)
             |> Seq.reduce (|||)
         SQUARES |> List.map getk
-
     let AttacksP, AttacksPF = 
         let getp pr sq = 
             let board = 
@@ -256,7 +247,6 @@ module Attacks =
         Player.AllPlayers
         |> Array.map getps
         |> Array.unzip
-
     let LookupB, ShiftB, MaskB = 
         let getlsm sq = 
             let mask = BishopMaskCalc(sq)
@@ -272,7 +262,6 @@ module Attacks =
         SQUARES
         |> List.map getlsm
         |> List.unzip3
-
     let LookupR, ShiftR, MaskR = 
         let getlsm sq = 
             let mask = RookMaskCalc(sq)
@@ -288,28 +277,18 @@ module Attacks =
         SQUARES
         |> List.map getlsm
         |> List.unzip3
-
     let KnightAttacks(from : Square) = AttacksKn.[int (from)]
     let KingAttacks(from : Square) = AttacksK.[int (from)]
     let PawnAttacks (from : Square) (player : Player) = AttacksP.[int (player)].[int (from)]
-    //let PawnAttacksFlood (from : Square) (player : Player) = AttacksPF.[int (player)].[int (from)]
-
     let BishopAttacks (pos : Square) (allPieces : Bitboard) = 
         let ind1 = uint64 (allPieces &&& MaskB.[int (pos)])
         let ind2 = ind1 * MagicsB.[int (pos)]
         let ind3 = int (ind2 >>> ShiftB.[int (pos)])
         LookupB.[int (pos)].[ind3]
-
-    //let BishopMask(pos : Square) = MaskB.[int (pos)]
-
     let RookAttacks (pos : Square) (allPieces : Bitboard) = 
         let ind1 = uint64 (allPieces &&& MaskR.[int (pos)])
         let ind2 = ind1 * MagicsR.[int (pos)]
         let ind3 = int (ind2 >>> ShiftR.[int (pos)])
         LookupR.[int (pos)].[ind3]
-
-    //let RookMask(pos : Square) = MaskR.[int (pos)]
     let QueenAttacks (pos : Square) (allPieces : Bitboard) = 
         (RookAttacks pos allPieces) ||| (BishopAttacks pos allPieces)
-
-

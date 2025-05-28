@@ -1,7 +1,6 @@
 ﻿namespace GenBerk
 
 module MoveGenerate = 
-    
     let private legal (bd: Brd) (mvs:Move list) =
         let me = bd.WhosTurn
 
@@ -16,7 +15,6 @@ module MoveGenerate =
 
         let lmvs = filt mvs []
         lmvs
-
     let KingMoves (bd : Brd) :Move list = 
         let me = bd.WhosTurn
     
@@ -36,7 +34,6 @@ module MoveGenerate =
         let mvl = getKingAttacks attacks []
         
         mvl|>legal(bd)
-    
     let CastleMoves (bd : Brd) :Move list = 
         let checkerCount = bd.Checkers |> Bitboard.BitCount
         if (checkerCount > 1) || (bd |> Board.IsChk) then []
@@ -111,7 +108,6 @@ module MoveGenerate =
                         mv :: mvl2
                     else mvl2
             mvl|>legal(bd)
-
     let private pcMoves(bd : Brd) (pt:PieceType) (fnsqbb: (Square -> Bitboard -> Bitboard)) :Move list =
         let me = bd.WhosTurn
         let kingPos = if me=Player.White then bd.WtKingPos else bd.BkKingPos
@@ -147,35 +143,30 @@ module MoveGenerate =
             (if me=Player.White then bd.WtPrBds else bd.BkPrBds) &&& bd.PieceTypes.[int (pt)] 
         let mvl = getAttacks piecePositions []
         mvl|>legal(bd)
-    
     let KnightMoves(bd : Brd) :Move list = 
         let checkerCount = bd.Checkers |> Bitboard.BitCount
         if checkerCount > 1 then []
         else
             let fnsqbb: (Square -> Bitboard -> Bitboard) = fun pp bb -> Attacks.KnightAttacks pp
             pcMoves bd PieceType.Knight fnsqbb
-
     let BishopMoves(bd : Brd) :Move list = 
         let checkerCount = bd.Checkers |> Bitboard.BitCount
         if checkerCount > 1 then []
         else
             let fnsqbb: (Square -> Bitboard -> Bitboard) = fun pp bb -> Attacks.BishopAttacks pp bb
             pcMoves bd PieceType.Bishop fnsqbb
-
     let RookMoves(bd : Brd) :Move list = 
         let checkerCount = bd.Checkers |> Bitboard.BitCount
         if checkerCount > 1 then []
         else
             let fnsqbb: (Square -> Bitboard -> Bitboard) = fun pp bb -> Attacks.RookAttacks pp bb
             pcMoves bd PieceType.Rook fnsqbb
-
     let QueenMoves(bd : Brd) :Move list = 
         let checkerCount = bd.Checkers |> Bitboard.BitCount
         if checkerCount > 1 then []
         else
             let fnsqbb: (Square -> Bitboard -> Bitboard) = fun pp bb -> Attacks.QueenAttacks pp bb
             pcMoves bd PieceType.Queen fnsqbb
-
     let PawnMoves(bd : Brd) =
 
         let checkerCount = bd.Checkers |> Bitboard.BitCount
@@ -322,7 +313,6 @@ module MoveGenerate =
             let ptwos:Move list = getPtwos attacks []
 
             (ptwos@pones@pcaps)|>legal(bd)
-
     ///Gets all legal moves for this Board(bd)
     let AllMoves(bd : Brd) :Move list = 
         let checkerCount = bd.Checkers |> Bitboard.BitCount
@@ -335,28 +325,6 @@ module MoveGenerate =
             (bd|>RookMoves) @
             (bd|>QueenMoves) @
             (bd|>KingMoves)
-
-    //let PossMoves (bd: Brd) (sq: Square) =
-    //    let pc = bd.[sq]
-    //    let plr = pc|>Piece.PieceToPlayer
-    //    if plr<>bd.WhosTurn then []
-    //    else
-    //        let pt = pc|>Piece.ToPieceType
-    //        match pt with
-    //        |PieceType.Pawn -> bd|>PawnMoves|>List.filter(fun m -> m|>Move.From=sq)
-    //        |PieceType.Knight -> bd|>KnightMoves|>List.filter(fun m -> m|>Move.From=sq)
-    //        |PieceType.Bishop -> bd|>BishopMoves|>List.filter(fun m -> m|>Move.From=sq)
-    //        |PieceType.Rook -> bd|>RookMoves|>List.filter(fun m -> m|>Move.From=sq)
-    //        |PieceType.Queen -> bd|>QueenMoves|>List.filter(fun m -> m|>Move.From=sq)
-    //        |PieceType.King -> ((bd|>KingMoves)@(bd|>CastleMoves))|>List.filter(fun m -> m|>Move.From=sq)
-    //        |_ -> []
-    
-    //let IsDrawByStalemate(bd : Brd) = 
-    //    if not (bd |> Board.IsChk) then AllMoves(bd) |> List.isEmpty
-    //    else false
-    
     let IsMate(bd : Brd) = 
         if bd |> Board.IsChk then AllMoves(bd) |> List.isEmpty
         else false
-
-

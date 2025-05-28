@@ -1,14 +1,10 @@
 ﻿namespace GenBerk
 
-open System.IO
-
 module Berserk =
     let mutable prc = new System.Diagnostics.Process()
-    
     ///send message to engine
     let Send(command:string) = 
         prc.StandardInput.WriteLine(command)
-    
     ///set up engine
     let ComputeAnswer(fen, depth) = 
         Send("ucinewgame")
@@ -17,7 +13,6 @@ module Berserk =
         Send("position fen " + fen + " ")
         Send("go depth " + depth.ToString())
         prc.WaitForExit()
-    
     ///set up process
     let SetUpPrc () = 
         prc.StartInfo.CreateNoWindow <- true
@@ -28,9 +23,8 @@ module Berserk =
         prc.StartInfo.WindowStyle <- System.Diagnostics.ProcessWindowStyle.Hidden
         prc.Start() |> ignore
         prc.BeginOutputReadLine()
-    
-    ///Gets the Score and Line from a message
-    let GetScrLn(msg:string,bd:Brd) =
+    ///Gets the Best Entry from a message
+    let GetBest(msg:string,bd:Brd) =
         if msg.StartsWith("info") then
             let mv,resp = 
                 let st = msg.LastIndexOf("pv")
@@ -51,20 +45,15 @@ module Berserk =
                 let bits = ss.Split([|' '|])
                 let cp = int(bits.[0])
                 cp
-
             {Best=mv;Resp=resp;Eval=scr}
         else
             {Best=msg;Resp="";Eval=0}
-
-    //anl
     let Stop() = 
         if prc <> null then prc.Kill()
-
     let GetBestMove(fen:string,dpth:int) = 
         prc <- new System.Diagnostics.Process()
         let cbd = fen|>Board.FromStr
-        
-        let mutable scrln = []
+        let mutable bestlst = []
         //p_out
         let pOut (e : System.Diagnostics.DataReceivedEventArgs) = 
             if not (e.Data = null || e.Data = "") then 
@@ -73,13 +62,11 @@ module Berserk =
                     System.Console.WriteLine(msg)
                     if msg.StartsWith("bestmove") then Stop()
                     else
-                        scrln <- ((msg,cbd)|>GetScrLn)::scrln
+                        bestlst <- ((msg,cbd)|>GetBest)::bestlst
         prc.OutputDataReceived.Add(pOut)
         //Start process
         SetUpPrc()
         // call calcs
         // need to send game position moves as UCI
         ComputeAnswer(fen, dpth)
-        scrln.Head
-
-
+        bestlst.Head

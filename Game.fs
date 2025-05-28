@@ -1,7 +1,6 @@
 ﻿namespace GenBerk
 
 module Game =
-
     let AddTag (tagstr:string) (gm:Game) =
         let k,v = tagstr.Trim().Split([|'"'|])|>Array.map(fun s -> s.Trim())|>fun a -> a.[0],a.[1].Trim('"')
         match k with
@@ -19,7 +18,6 @@ module Game =
         | "FEN" -> {gm with BoardSetup = v|>FEN.Parse|>Board.FromFEN|>Some}
         | _ ->
             {gm with AdditionalInfo=gm.AdditionalInfo.Add(k,v)}
-    
     let SetaMoves(gm:Game) =
         let rec setamv (pmvl:MoveTextEntry list) mct prebd bd opmvl =
             if pmvl|>List.isEmpty then opmvl|>List.rev
@@ -37,8 +35,6 @@ module Game =
                     let nmte = RAVEntry(nmtel)
                     setamv pmvl.Tail mct prebd bd (nmte::opmvl)
                 |_ -> setamv pmvl.Tail mct prebd bd (mte::opmvl)
-        
         let ibd = if gm.BoardSetup.IsSome then gm.BoardSetup.Value else Board.Start
         let nmt = setamv gm.MoveText 1 ibd ibd []
         {gm with MoveText=nmt}
-
