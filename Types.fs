@@ -271,5 +271,5 @@ module Types =
             MoveText = []
         }
     type RespCacheDict = Dictionary<string,string list>
-    type BestEntry = {Best:string;Resp:string;Eval:int}
+    type BestEntry = {Best:string;Eval:int}
     type BestCacheDict = Dictionary<string,BestEntry>

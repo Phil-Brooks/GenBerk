@@ -8,7 +8,8 @@ module Berserk =
     ///set up engine
     let ComputeAnswer(fen, depth) = 
         Send("ucinewgame")
-        Send("setoption name Threads value " + (System.Environment.ProcessorCount - 1).ToString())
+        Send("setoption name Threads value 12") 
+        Send("setoption name Hash value 16000") 
         Send("position startpos")
         Send("position fen " + fen + " ")
         Send("go depth " + depth.ToString())
@@ -24,30 +25,24 @@ module Berserk =
         prc.Start() |> ignore
         prc.BeginOutputReadLine()
     ///Gets the Best Entry from a message
-    let GetBest(msg:string,bd:Brd) =
+    let GetBest(msg:string,bd:Brd,ibestlst) =
         if msg.StartsWith("info") then
-            let mv,resp = 
+            let mv = 
                 let st = msg.LastIndexOf("pv")
                 let ucis = msg.Substring(st+2)
                 //need to change to SAN format
                 let bits = ucis.Trim().Split([|' '|])
                 let mv0 = bits[0]|>MoveUtil.fromUci bd|>MoveUtil.toPgn bd
-                let pmv0 = pMove.Parse mv0
-                let move0 = pMove.ToMove bd pmv0
-                let newbd = Board.MoveApply move0 bd
-                let resp0 = 
-                    if bits.Length>1 then bits[1]|>MoveUtil.fromUci newbd|>MoveUtil.toPgn newbd
-                    else ""
-                mv0, resp0
+                mv0
             let scr =
                 let st = msg.LastIndexOf("cp")
                 let ss = msg.Substring(st+2,10).Trim()
                 let bits = ss.Split([|' '|])
                 let cp = int(bits.[0])
                 cp
-            {Best=mv;Resp=resp;Eval=scr}
+            {Best=mv;Eval=scr}::ibestlst
         else
-            {Best=msg;Resp="";Eval=0}
+            ibestlst
     let Stop() = 
         if prc <> null then prc.Kill()
     let GetBestMove(fen:string,dpth:int) = 
@@ -59,10 +54,12 @@ module Berserk =
             if not (e.Data = null || e.Data = "") then 
                 let msg = e.Data.ToString().Trim()
                 if not (msg.StartsWith("info") && not (msg.Contains(" cp "))) then 
-                    System.Console.WriteLine(msg)
-                    if msg.StartsWith("bestmove") then Stop()
+                    //System.Console.WriteLine(msg)
+                    if msg.StartsWith("bestmove") then
+                        System.Console.WriteLine(msg)
+                        Stop()
                     else
-                        bestlst <- ((msg,cbd)|>GetBest)::bestlst
+                        bestlst <- GetBest(msg,cbd,bestlst)
         prc.OutputDataReceived.Add(pOut)
         //Start process
         SetUpPrc()

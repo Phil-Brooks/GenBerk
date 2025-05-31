@@ -14,8 +14,8 @@ let main argv =
     9. Save new pgn
     *)
     Rep.setcache()
-    Best.depth <- 10
-    let mnum = 5
+    Best.depth <- 20
+    let mnum = 11
     let gmi = RegParse.ReadGame "base.pgn"
     let gm0 = Game.SetaMoves gmi
     let isw = gm0.BlackPlayer = ""||gm0.BlackPlayer = "?" 

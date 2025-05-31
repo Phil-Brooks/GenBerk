@@ -89,8 +89,11 @@ module Rep =
                 let nbrd = amv.PostBrd
                 let fen = FEN.FromBd nbrd|>FEN.ToStr
                 let iresps = Resp.Get fen
-                let tresps = iresps|>List.filter(fun r -> r<>bm.Resp)
-                let resps = bm.Resp::tresps
+                let resps = 
+                    if iresps.Length=0 then
+                        let rbm = Best.Get fen
+                        [rbm.Best]
+                    else iresps
                 let pmv = pMove.Parse resps.Head
                 let amv = pMove.ToaMove nbrd (hmn/2) pmv
                 let nmte = HalfMoveEntry(None,false,pmv,Some(amv))
@@ -118,8 +121,11 @@ module Rep =
                     let nbrd = amv.PostBrd
                     let fen = FEN.FromBd nbrd|>FEN.ToStr
                     let iresps = Resp.Get fen
-                    let tresps = iresps|>List.filter(fun r -> r<>bm.Resp)
-                    let resps = bm.Resp::tresps
+                    let resps = 
+                        if iresps.Length=0 then
+                            let rbm = Best.Get fen
+                            [rbm.Best]
+                        else iresps
                     let pmv = pMove.Parse resps.Head
                     let amv = pMove.ToaMove nbrd (hmn/2) pmv
                     let nmte = HalfMoveEntry(None,false,pmv,Some(amv))
@@ -160,8 +166,11 @@ module Rep =
                 let nbrd = amv.PostBrd
                 let fen = FEN.FromBd nbrd|>FEN.ToStr
                 let iresps = Resp.Get fen
-                let tresps = iresps|>List.filter(fun r -> r<>bm.Resp)
-                let resps = bm.Resp::tresps
+                let resps = 
+                    if iresps.Length=0 then
+                        let rbm = Best.Get fen
+                        [rbm.Best]
+                    else iresps
                 let pmv = pMove.Parse resps.Head
                 let amv = pMove.ToaMove nbrd ((hmn+1)/2) pmv
                 let nmte = HalfMoveEntry(Some((hmn+1)/2),false,pmv,Some(amv))
@@ -192,8 +201,11 @@ module Rep =
                     let nbrd = amv.PostBrd
                     let fen = FEN.FromBd nbrd|>FEN.ToStr
                     let iresps = Resp.Get fen
-                    let tresps = iresps|>List.filter(fun r -> r<>bm.Resp)
-                    let resps = bm.Resp::tresps
+                    let resps = 
+                        if iresps.Length=0 then
+                            let rbm = Best.Get fen
+                            [rbm.Best]
+                        else iresps
                     let pmv = pMove.Parse resps.Head
                     let amv = pMove.ToaMove nbrd (hmn/2) pmv
                     let nmte = HalfMoveEntry(Some((hmn+1)/2),false,pmv,Some(amv))
